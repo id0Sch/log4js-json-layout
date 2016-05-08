@@ -13,6 +13,7 @@ layout should be type 'json'
 
 currently we support include options only, array of items is expected
 log object will contain these properties : ["startTime","categoryName","data","level"]
+source param will be added to each json object if provided 
 
 ```
 var log4js = require('log4js');
@@ -24,6 +25,7 @@ appenders = [{
     type: 'console',
     layout: {
         type: 'json',
+        source : 'development',
         include: ['startTime', 'categoryName']
     }
   }
