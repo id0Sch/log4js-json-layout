@@ -1,0 +1,26 @@
+{
+  "name": "log4js-json-layout",
+  "version": "1.0.0",
+  "description": "provides a slim and easy to use json-layout for log4js-node",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha ./test.js",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/id0Sch/log4js-json-layout.git"
+  },
+  "author": "Ido Schachter <ido.schachter@ironsrc.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/id0Sch/log4js-json-layout/issues"
+  },
+  "homepage": "https://github.com/id0Sch/log4js-json-layout#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
+  }
+}
