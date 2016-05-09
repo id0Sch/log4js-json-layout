@@ -43,5 +43,10 @@ describe('log4js-json-layout', function () {
             include: ['level', 'data']
         })(data);
         output.should.be.deep.equal(JSON.stringify({level: expected.level, data: expected.data}));
-    })
+    });
+    it('should format data', function () {
+        data.data = ['%s', 'aaa'];
+        var output = layout({})(data);
+        JSON.parse(output).data.should.equal('aaa');
+    });
 });
