@@ -1,5 +1,5 @@
 # log4js-json-layout
-[![NPM](https://nodei.co/npm/log4js-json-layout.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/log4js-json-layouts/)
+[![NPM](https://nodei.co/npm/log4js-json-layout.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/log4js-json-layout/)
 
 provides a slim and easy to use json-layout for log4js-node (https://github.com/nomiddlename/log4js-node)
 
