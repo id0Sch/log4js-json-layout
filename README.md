@@ -5,7 +5,7 @@ provides a slim and easy to use json-layout for log4js-node (https://github.com/
 
 # installation
 ```
-npm install jog4js-json-layout
+npm install log4js-json-layout
 ```
 
 # usage
@@ -17,7 +17,7 @@ source param will be added to each json object if provided
 
 ```
 var log4js = require('log4js');
-var jsonLayout = require('jog4js-json-layout');
+var jsonLayout = require('log4js-json-layout');
 
 log4js.layouts.addLayout('json', jsonLayout);
 
