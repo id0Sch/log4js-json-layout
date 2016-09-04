@@ -23,6 +23,7 @@ log4js.layouts.addLayout('json', jsonLayout);
 
 appenders = [{
     type: 'console',
+    messageParam : 'msg',
     layout: {
         type: 'json',
         source : 'development',

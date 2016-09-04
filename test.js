@@ -11,8 +11,8 @@ var layout = require('./lib/jsonLayout');
 var expected = {
     startTime: "615 Ludlam Place, Nicholson, New Mexico, 5763",
     categoryName: "572efdaaa64be9dbc56369ae",
-    data: "Deserunt mollit nisi ipsum ipsum ea quis in eiusmod ipsum officia labore qui amet. Cupidatat ut do Lorem ad veniam irure proident enim aliqua nisi aliquip velit voluptate. Laborum minim occaecat commodo nulla labore ex ullamco. Eu incididunt quis quis Lorem do nostrud enim consectetur. Voluptate in occaecat proident aliqua Lorem pariatur officia dolor.\r\n",
-    level: "strong"
+    level: "strong",
+    data: "Deserunt mollit nisi ipsum ipsum ea quis in eiusmod ipsum officia labore qui amet. Cupidatat ut do Lorem ad veniam irure proident enim aliqua nisi aliquip velit voluptate. Laborum minim occaecat commodo nulla labore ex ullamco. Eu incididunt quis quis Lorem do nostrud enim consectetur. Voluptate in occaecat proident aliqua Lorem pariatur officia dolor.\r\n"
 };
 describe('log4js-json-layout', function () {
     var data;
@@ -48,5 +48,23 @@ describe('log4js-json-layout', function () {
         data.data = ['%s', 'aaa'];
         var output = layout({})(data);
         JSON.parse(output).data.should.equal('aaa');
+    });
+    it('should format data when passed as message + object', function () {
+        data.data = ['aaa', {id: 123}];
+        var output = JSON.parse(layout({})(data));
+        output.id.should.equal(123);
+        output.data.should.equal('aaa')
+    });
+    it('should format data when passed as object with default msg param', function () {
+        data.data = [{id: 123, msg: 'aaa'}];
+        var output = JSON.parse(layout({})(data));
+        output.id.should.equal(123);
+        output.data.should.equal('aaa')
+    });
+    it('should format data when passed as object with different msg param', function () {
+        data.data = [{id: 123, data: 'aaa'}];
+        var output = JSON.parse(layout({messageParam : 'data'})(data));
+        output.id.should.equal(123);
+        output.data.should.equal('aaa')
     });
 });
