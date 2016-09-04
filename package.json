@@ -1,6 +1,6 @@
 {
   "name": "log4js-json-layout",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "provides a slim and easy to use json-layout for log4js-node",
   "main": "index.js",
   "scripts": {
