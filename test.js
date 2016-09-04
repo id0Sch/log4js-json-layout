@@ -46,13 +46,38 @@ describe('log4js-json-layout', function () {
     });
     it('should format data', function () {
         data.data = ['%s', 'aaa'];
-        var output = layout({})(data);
-        JSON.parse(output).data.should.equal('aaa');
+        var output = JSON.parse(layout({})(data));
+        output.data.should.equal('aaa');
+    });
+    it('should format many params', function () {
+        data.data = ['%s_%s', 'aaa','bbb'];
+        var output = JSON.parse(layout({})(data));
+        output.data.should.equal('aaa_bbb');
+    });
+    it('should format data + support object', function () {
+        data.data = ['%s', 'aaa', {a: 1}];
+        var output = JSON.parse(layout({})(data));
+        output.data.should.equal('aaa');
+        output.a.should.equal(1);
+    });
+    it('should format many params + support objects', function () {
+        data.data = ['%s_%s', 'aaa','bbb',{a:1},{b:2}];
+        var output = JSON.parse(layout({})(data));
+        output.data.should.equal('aaa_bbb');
+        output.a.should.equal(1);
+        output.b.should.equal(2);
     });
     it('should format data when passed as message + object', function () {
         data.data = ['aaa', {id: 123}];
         var output = JSON.parse(layout({})(data));
         output.id.should.equal(123);
+        output.data.should.equal('aaa')
+    });
+    it('should format data when passed as message + many objects', function () {
+        data.data = ['aaa', {id: 123}, {bb: 222}];
+        var output = JSON.parse(layout({})(data));
+        output.id.should.equal(123);
+        output.bb.should.equal(222);
         output.data.should.equal('aaa')
     });
     it('should format data when passed as object with default msg param', function () {
