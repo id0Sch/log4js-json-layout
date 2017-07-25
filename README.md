@@ -1,14 +1,16 @@
 # log4js-json-layout
 [![NPM](https://nodei.co/npm/log4js-json-layout.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/log4js-json-layout/)
 
-provides a slim and easy to use json-layout for log4js-node (https://github.com/nomiddlename/log4js-node)
+Provides a slim and easy to use json-layout for log4js-node (https://github.com/nomiddlename/log4js-node)
 
-# installation
-```
-npm install log4js-json-layout
+# Installation
+
+```bash
+npm install log4js-json-layout --save
 ```
 
-# usage
+# Usage
+
 layout should be type 'json'
 
 currently we support include options only, array of items is expected
