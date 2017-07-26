@@ -31,6 +31,7 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-lodash": "^2.4.4",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.1.0",
     "mocha": "^2.5.3",
@@ -38,5 +39,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.4"
+  },
+  "engines": {
+    "node": ">=6"
   }
 }

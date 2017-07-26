@@ -1,8 +1,9 @@
 'use strict';
 
 module.exports = {
-	'extends': 'airbnb',
-	'env': {
-	  'node': true,
+  'plugins': ['lodash'],
+  'extends': ['airbnb', 'plugin:lodash/canonical'],
+  'env': {
+    'node': true,
   }
 };
