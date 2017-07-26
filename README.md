@@ -3,13 +3,13 @@
 
 A slim and easy to use JSON layout for [log4js-node](https://github.com/nomiddlename/log4js-node).
 
-# Installation
+## Installation
 
 ```bash
 npm install log4js-json-layout --save
 ```
 
-# Usage
+## Usage
 
 Set the layout type to `json`.
 
@@ -21,14 +21,14 @@ Each log object contains the following properties:
 - `level`
 - `source` - if provided, will be included 
 
-## Options
+### Options
 
 - `type` - string, always `json`
 - `source` - optional string, just sets the property `source`. Ex: `development`
 - `include` - array of properties to include in the log object
 - `colors` - boolean; if set, colorizes the output for humans. Don't use for logging.
 
-## Example
+### Example
 
 ```
 const log4js = require('log4js');

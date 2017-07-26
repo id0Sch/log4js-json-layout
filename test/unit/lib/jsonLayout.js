@@ -1,10 +1,12 @@
+const _ = require('lodash');
 const chai = require('chai');
+const colors = require('colors/safe');
 
 chai.should();
 
 const layout = require('../../../lib/jsonLayout');
 
-const expected = {
+const expectedDefault = {
   startTime: '615 Ludlam Place, Nicholson, New Mexico, 5763',
   categoryName: '572efdaaa64be9dbc56369ae',
   level: 'INFO',
@@ -13,8 +15,11 @@ const expected = {
 
 describe('log4js-json-layout', function () {
   let data;
+  let expected;
 
   beforeEach(function () {
+    expected = _.clone(expectedDefault);
+
     data = {
       level: { levelStr: 'INFO' },
       categoryName: '572efdaaa64be9dbc56369ae',
@@ -24,81 +29,121 @@ describe('log4js-json-layout', function () {
   });
 
   it('should return all items', function () {
-    const output = layout({})(data);
-    output.should.be.deep.equal(JSON.stringify(expected));
+    const actual = layout({})(data);
+    actual.should.deep.equal(JSON.stringify(expected));
+  });
+
+  it('should colorize input when configured', function () {
+    const actual = layout({ colors: true })(data);
+    actual.should.deep.equal(colors.green(JSON.stringify(expected)));
+  });
+
+  it('should not colorize input when configured with an unknown level', function () {
+    data.level.levelStr = 'fake';
+    expected.level = 'fake';
+
+    const actual = layout({ colors: true })(data);
+    actual.should.deep.equal(JSON.stringify(expected));
+  });
+
+  it('should add source when configured', function () {
+    const actual = layout({ source: 'test' })(data);
+
+    // Order matters.
+    expected = {
+      startTime: expectedDefault.startTime,
+      categoryName: expectedDefault.categoryName,
+      level: expectedDefault.level,
+      source: 'test',
+      data: expectedDefault.data,
+    };
+
+    actual.should.deep.equal(JSON.stringify(expected));
+  });
+
+  it('should format stack traces', function () {
+    data.data = new Error('Whoops!');
+    const actual = layout({})(data);
+    actual.should.contain('"data":"Error: Whoops!\\n    at Context.<anonymous>');
+  });
+
+  it('should ignore invalid included properties', function () {
+    expected = JSON.stringify({ data: expected.data });
+    const actual = layout({ include: ['data', 'fake'] })(data);
+    actual.should.deep.equal(expected);
   });
 
   it('should remove logger property', function () {
     data.logger = 'bla,bla,bla';
-    const output = layout({})(data);
-    output.should.be.deep.equal(JSON.stringify(expected));
+    const actual = layout({})(data);
+    actual.should.deep.equal(JSON.stringify(expected));
   });
 
   it('should change levelStr to level', function () {
-    const output = layout({})(data);
-    output.should.be.deep.equal(JSON.stringify(expected));
+    const actual = layout({})(data);
+    actual.should.deep.equal(JSON.stringify(expected));
   });
 
   it('should pick specific keys', function () {
-    const output = layout({
+    const actual = layout({
       include: ['level', 'data'],
     })(data);
-    output.should.be.deep.equal(JSON.stringify({ level: expected.level, data: expected.data }));
+    actual.should.deep.equal(JSON.stringify({ level: expected.level, data: expected.data }));
   });
 
   it('should format data', function () {
     data.data = ['%s', 'aaa'];
-    const output = JSON.parse(layout({})(data));
-    output.data.should.equal('aaa');
+    const actual = JSON.parse(layout({})(data));
+    actual.data.should.equal('aaa');
   });
 
   it('should format many params', function () {
     data.data = ['%s_%s', 'aaa', 'bbb'];
-    const output = JSON.parse(layout({})(data));
-    output.data.should.equal('aaa_bbb');
+    const actual = JSON.parse(layout({})(data));
+    actual.data.should.equal('aaa_bbb');
   });
 
   it('should format data + support object', function () {
     data.data = ['%s', 'aaa', { a: 1 }];
-    const output = JSON.parse(layout({})(data));
-    output.data.should.equal('aaa');
-    output.a.should.equal(1);
+    const actual = JSON.parse(layout({})(data));
+    actual.data.should.equal('aaa');
+    actual.a.should.equal(1);
   });
 
   it('should format many params + support objects', function () {
     data.data = ['%s_%s', 'aaa', 'bbb', { a: 1 }, { b: 2 }];
-    const output = JSON.parse(layout({})(data));
-    output.data.should.equal('aaa_bbb');
-    output.a.should.equal(1);
-    output.b.should.equal(2);
+    const actual = JSON.parse(layout({})(data));
+    actual.data.should.equal('aaa_bbb');
+    actual.a.should.equal(1);
+    actual.b.should.equal(2);
   });
 
   it('should format data when passed as message + object', function () {
     data.data = ['aaa', { id: 123 }];
-    const output = JSON.parse(layout({})(data));
-    output.id.should.equal(123);
-    output.data.should.equal('aaa');
+    const actual = JSON.parse(layout({})(data));
+    actual.id.should.equal(123);
+    actual.data.should.equal('aaa');
   });
 
   it('should format data when passed as message + many objects', function () {
     data.data = ['aaa', { id: 123 }, { bb: 222 }];
-    const output = JSON.parse(layout({})(data));
-    output.id.should.equal(123);
-    output.bb.should.equal(222);
-    output.data.should.equal('aaa');
+    const actual = JSON.parse(layout({})(data));
+    actual.id.should.equal(123);
+    actual.bb.should.equal(222);
+    actual.data.should.equal('aaa');
   });
 
   it('should format data when passed as object with default msg param', function () {
     data.data = [{ id: 123, msg: 'aaa' }];
-    const output = JSON.parse(layout({})(data));
-    output.id.should.equal(123);
-    output.data.should.equal('aaa');
+    const actual = JSON.parse(layout({})(data));
+    actual.id.should.equal(123);
+    actual.data.should.equal('aaa');
   });
 
   it('should format data when passed as object with different msg param', function () {
     data.data = [{ id: 123, data: 'aaa' }];
-    const output = JSON.parse(layout({ messageParam: 'data' })(data));
-    output.id.should.equal(123);
-    output.data.should.equal('aaa');
+    const actual = JSON.parse(layout({ messageParam: 'data' })(data));
+    actual.id.should.equal(123);
+    actual.data.should.equal('aaa');
   });
 });
