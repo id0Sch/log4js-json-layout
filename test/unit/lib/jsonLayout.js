@@ -7,7 +7,7 @@ const layout = require('../../../lib/jsonLayout');
 const expected = {
   startTime: '615 Ludlam Place, Nicholson, New Mexico, 5763',
   categoryName: '572efdaaa64be9dbc56369ae',
-  level: 'strong',
+  level: 'INFO',
   data: 'Deserunt mollit nisi ipsum ipsum ea quis in eiusmod ipsum officia labore qui amet. Cupidatat ut do Lorem ad veniam irure proident enim aliqua nisi aliquip velit voluptate. Laborum minim occaecat commodo nulla labore ex ullamco. Eu incididunt quis quis Lorem do nostrud enim consectetur. Voluptate in occaecat proident aliqua Lorem pariatur officia dolor.\r\n',
 };
 
@@ -16,7 +16,7 @@ describe('log4js-json-layout', function () {
 
   beforeEach(function () {
     data = {
-      level: { levelStr: 'strong' },
+      level: { levelStr: 'INFO' },
       categoryName: '572efdaaa64be9dbc56369ae',
       startTime: '615 Ludlam Place, Nicholson, New Mexico, 5763',
       data: 'Deserunt mollit nisi ipsum ipsum ea quis in eiusmod ipsum officia labore qui amet. Cupidatat ut do Lorem ad veniam irure proident enim aliqua nisi aliquip velit voluptate. Laborum minim occaecat commodo nulla labore ex ullamco. Eu incididunt quis quis Lorem do nostrud enim consectetur. Voluptate in occaecat proident aliqua Lorem pariatur officia dolor.\r\n',
