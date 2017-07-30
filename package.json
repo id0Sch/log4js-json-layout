@@ -1,17 +1,24 @@
 {
   "name": "log4js-json-layout",
   "version": "1.0.5",
-  "description": "provides a slim and easy to use json-layout for log4js-node",
+  "description": "Provides a slim and easy to use json-layout for log4js-node",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/_mocha ./test.js",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/id0Sch/log4js-json-layout.git"
   },
   "author": "Ido Schachter <ido.schachter@ironsrc.com>",
+  "contributors": [
+    {
+      "name": "Jon Peck",
+      "email": "jpeck@fluxsauce.com"
+    }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/id0Sch/log4js-json-layout/issues"
@@ -19,11 +26,22 @@
   "homepage": "https://github.com/id0Sch/log4js-json-layout#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "coveralls": "^2.11.9",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "coveralls": "^2.13.1",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-lodash": "^2.4.4",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-react": "^7.1.0",
+    "mocha": "^2.5.3",
+    "nyc": "^11.0.3"
   },
   "dependencies": {
-    "lodash": "^4.15.0"
+    "colors": "^1.1.2",
+    "lodash": "^4.17.4"
+  },
+  "engines": {
+    "node": ">=6"
   }
 }
