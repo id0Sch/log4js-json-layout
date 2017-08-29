@@ -30,14 +30,17 @@ Each log object contains the following properties:
 - `categoryName` - specified when `log4js` is initialized
 - `data` - if the log message is a string, otherwise omitted
 - `level` - level in human readable format
-- `source` - if provided, will be included 
+- `source` - if provided, will be included
+
+Additional properties can be specified as extra arguments of object type during invocation of log function. Static or constant properties can be specified using the `static` config option.
 
 ### Options
 
 - `type` - string, always `json`
 - `source` - optional string, just sets the property `source`. Example value: `development`
 - `include` - array of properties to include in the log object
-- `colors` - boolean; off by default. If set to true, colorizes the output using log4js default color scheme based on log level. Useful for development, do not use for storing logs.
+- `colors` - boolean; off by default. If set to true, colorizes the output using log4js default color scheme based on log level. Useful for development, do not use for storing logs
+- `static` - object, name value pairs of this object are added to output 
 
 ### Example Config
 
@@ -68,6 +71,9 @@ appenders = [{
   layout: {
     type: 'json',
     source: 'development',
+    static: {
+      appName: 'mysuperbapp'
+    },
     include: ['startTime', 'categoryName'],
   }
 }];

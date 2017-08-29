@@ -146,4 +146,23 @@ describe('log4js-json-layout', function () {
     actual.id.should.equal(123);
     actual.data.should.equal('aaa');
   });
+
+  it('should add static fields when configured', function () {
+    data.data = [{ id: 123, data: 'aaa' }];
+    const actual = JSON.parse(layout({
+      static: { appName: 'testapp', source: 'development' }
+    })(data));
+    actual.id.should.equal(123);
+    actual.data.should.equal('aaa');
+    actual.appName.should.equal('testapp');
+    actual.source.should.equal('development');
+  });
+
+  it('should still pick specific keys when static fields are configured', function () {
+    const actual = layout({
+      static: { appName: 'testapp' },
+      include: ['level', 'data'],
+    })(data);
+    actual.should.deep.equal(JSON.stringify({ level: expected.level, data: expected.data }));
+  });
 });
