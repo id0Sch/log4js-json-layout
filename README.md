@@ -48,7 +48,7 @@ Additional properties can be specified as extra arguments of object type during 
 const log4js = require('log4js');
 const jsonLayout = require('log4js-json-layout');
 
-log4js.layouts.addLayout('json', jsonLayout);
+log4js.addLayout('json', jsonLayout);
 ```
 
 Minimal:
