@@ -41,6 +41,7 @@ Additional properties can be specified as extra arguments of object type during 
 - `include` - array of properties to include in the log object
 - `colors` - boolean; off by default. If set to true, colorizes the output using log4js default color scheme based on log level. Useful for development, do not use for storing logs
 - `static` - object, name value pairs of this object are added to output 
+- `dynamic` - object, where each value is a no-argument function that must return a string/number/boolean. The key and the function's return value are added to the output
 
 ### Example Config
 
@@ -74,8 +75,27 @@ appenders = [{
     static: {
       appName: 'mysuperbapp'
     },
+    dynamic: {
+      transactionId: function() {
+        return 'tx-id'; // string
+      },
+      isAdmin: function() {
+        return 1>0; // boolean
+      },
+      countLogin: function() {
+        return 20; // number
+      }
+    },
     include: ['startTime', 'categoryName'],
   }
 }];
 
+const logger = log4js.getLogger('info');
+
+logger.info('Test log');
+```
+
+Output:
+```json
+{"startTime":"2017-07-27T00:01:05.175Z","categoryName":"/path/to/file/redis-client.js","level":"DEBUG","transactionId": "tx-id","isAdmin": true,"countLogin": 20,"data":"Test log",}
 ```
