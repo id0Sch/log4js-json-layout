@@ -150,12 +150,42 @@ describe('log4js-json-layout', function () {
   it('should add static fields when configured', function () {
     data.data = [{ id: 123, data: 'aaa' }];
     const actual = JSON.parse(layout({
-      static: { appName: 'testapp', source: 'development' }
+      static: { appName: 'testapp', source: 'development' },
     })(data));
     actual.id.should.equal(123);
     actual.data.should.equal('aaa');
     actual.appName.should.equal('testapp');
     actual.source.should.equal('development');
+  });
+
+  it('should add dynamic fields when configured', function () {
+    data.data = [{ id: 123, data: 'aaa' }];
+
+    // eslint-disable-next-line lodash/prefer-constant
+    const getTransactionId = () => 'tx-id';
+
+    // eslint-disable-next-line lodash/prefer-constant
+    const getIsAdmin = () => true;
+
+    // eslint-disable-next-line lodash/prefer-constant
+    const getCountLogin = () => 10;
+
+    const actual = JSON.parse(layout({
+      dynamic: {
+
+        // Supported
+        transactionId: getTransactionId,
+        isAdmin: getIsAdmin,
+        countLogin: getCountLogin,
+
+        // Function with arguements not supported
+        someArg: x => x,
+
+        // Non string/number/boolean returning functions not supported
+        nonSupportedReturn: () => new Date(),
+
+      } })(data));
+    actual.should.deep.equal({ startTime: '615 Ludlam Place, Nicholson, New Mexico, 5763', categoryName: '572efdaaa64be9dbc56369ae', level: 'INFO', transactionId: getTransactionId(), isAdmin: getIsAdmin(), countLogin: getCountLogin(), id: 123, data: 'aaa' });
   });
 
   it('should still pick specific keys when static fields are configured', function () {
